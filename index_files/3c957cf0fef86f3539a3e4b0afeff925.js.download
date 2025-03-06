@@ -1,0 +1,9 @@
+function scaleVimeoVideo(){const videoBgElements=document.querySelectorAll(".vimeo-bg");if(videoBgElements.length>0){videoBgElements.forEach(function(vimeoBg){const videoBgAspect=vimeoBg.querySelector(".vimeo-bg-aspect");const videoBgWidth=vimeoBg.querySelector(".vimeo-bg-width");const videoAspect=videoBgAspect.offsetHeight/videoBgAspect.offsetWidth;const isFullSize=vimeoBg.classList.contains("vimeo-bg--full-size");function videobgEnlarge(){let windowAspect;if(isFullSize){windowAspect=vimeoBg.parentElement.offsetHeight/vimeoBg.parentElement.offsetWidth}else{windowAspect=window.innerHeight/window.innerWidth}
+if(windowAspect>videoAspect){videoBgWidth.style.width=(windowAspect/videoAspect)*100+'%'}else{videoBgWidth.style.width='100%'}
+vimeoBg.classList.add("vimeo-bg--ready")}
+videobgEnlarge();window.addEventListener('resize',videobgEnlarge)})}}
+function loadVimeoIframe(){console.log('loadVimeoIframe');const loadVideos=(videos)=>{videos.forEach((iframe)=>{iframe.onload=function(e){if(e.target.src!==''){const event=new Event("vimeo-bg-loaded");iframe.dispatchEvent(event)}};if(iframe.getAttribute('data-src')===null){return!0}
+iframe.setAttribute('src',iframe.getAttribute('data-src'));iframe.classList.remove('no-src');iframe.classList.add('loaded')})};const iframes=document.querySelectorAll(".vimeo-bg iframe.no-src");if(iframes.length>0){loadVideos(iframes)}
+scaleVimeoVideo()}
+document.addEventListener("DOMContentLoaded",function(){console.log('DOMContentLoaded event fired');loadVimeoIframe()})
+;
